@@ -1,0 +1,37 @@
+@mixin useBackgroundColors {
+  &.white {
+    background: $white;
+  }
+
+  &.black {
+    background: $black;
+  }
+
+  &.purple {
+    background: $purple;
+  }
+
+  &.gray {
+    background: $gray;
+  }
+
+  &.lineAndStroke {
+    background: $linesAndStroke;
+  }
+
+  &.blue {
+    background: $blue;
+  }
+
+  &.green {
+    background: $green;
+  }
+
+  &.red {
+    background: $red;
+  }
+
+  &.yellow {
+    background: $yellow;
+  }
+}

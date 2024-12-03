@@ -1,0 +1,53 @@
+@mixin useAlignCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin useAlignStartCenter {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@mixin useAlignCenterStart {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin useAlignCenterEnd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin useAlignEndCenter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@mixin useAlignCenterBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin useAlignStartBetween {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+@mixin useAlignEndBetween {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+@mixin useAlignBaselineCenter {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}

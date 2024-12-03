@@ -1,0 +1,17 @@
+@mixin useBackgroundLight {
+  &.green {
+    background: $greenLight;
+  }
+
+  &.blue {
+    background: $blueLight;
+  }
+
+  &.red {
+    background: $redLight;
+  }
+
+  &.yellow {
+    background: $yellowLight;
+  }
+}

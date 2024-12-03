@@ -1,0 +1,10 @@
+@mixin useDatePicker {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: rem(16);
+
+  .date-picker {
+    max-width: 300px;
+  }
+}

@@ -16,7 +16,7 @@ urlInstance.interceptors.request.use(
     if (!config.url?.includes('/login') && !config.url?.includes('/registro')) {
       if (config.data && typeof config.data === 'object') {
         config.data.userId = localStorage.getItem('userId')
-        config.headers.userId = localStorage.getItem('userId')
+        config.headers['userId'] = localStorage.getItem('userId')
       }
     }
 

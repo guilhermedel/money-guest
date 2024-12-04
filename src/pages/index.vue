@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout:"initial"  
+  layout:"initial",  
   redirect: "/home",
 });
 </script>

@@ -9,14 +9,20 @@ const urlInstance = axios.create({
 urlInstance.interceptors.request.use(
   function (config) {
     const token = window.localStorage.token
+    const userId = window.localStorage.userId
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
+    }
+
+    if (userId) {
+      config.headers.userId = userId;
+      console.log("headers: ",config.headers)
     }
 
     if (!config.url?.includes('/login') && !config.url?.includes('/registro')) {
       if (config.data && typeof config.data === 'object') {
         config.data.userId = localStorage.getItem('userId')
-        config.headers['userId'] = localStorage.getItem('userId')
       }
     }
 

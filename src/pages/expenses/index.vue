@@ -30,6 +30,7 @@
       :is-opened="createExpenseModalOpened"
       :loading-request="loadingRequest"
       :categories="selectOptionsCategory"
+      :accounties="selectOptionsAccount"
       @modal-expense:close="handleCloseModalCreateExpense"
       @modal-expense:submit="handleCreateExpense"
     />
@@ -38,6 +39,7 @@
       :loading-request="loadingRequest"
       :modal-value="expenseSelect"
       :categories="selectOptionsCategory"
+      :accounties="selectOptionsAccount"
       @modal-expense:close="handleCloseModalEditExpense"
       @modal-expense:submit="handleEditExpense"
     />
@@ -57,8 +59,10 @@ import type { IItemListTransactionProp, IEditExpense } from "~/interface/organis
 import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense"
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
+import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import { useStoreCategory } from "~/store/useCategory"
 import { useStoreExpense } from "~/store/useTransactionExpense"
+import { useStoreAccount } from "~/store/useAccount"
 import { addFeedback } from "~/utils/addFeedback"
 
 export default {
@@ -76,10 +80,12 @@ export default {
 
   setup() {
     const storeExpense = useStoreExpense()
+    const storeAccount = useStoreAccount()
     const storeCategory = useStoreCategory()
 
     return {
       storeExpense,
+      storeAccount,
       storeCategory
     }
   },
@@ -101,15 +107,33 @@ export default {
       return categoryOption
     },
 
+    selectOptionsAccount(): ISelectOptionsProp[] {
+      const accountOptions = this.storeAccount?.allAccount?.map((account: IItemListAccountProp) => {
+        return {
+          value: account.accountBankingName,
+          label: account.accountBankingName
+        }
+      })
+
+      accountOptions.unshift({
+        value: "",
+        label: "Selecione uma opção"
+      })
+
+      return accountOptions
+    },
+
     expenseSelect(): IEditExpense {
       const expense = this.storeExpense.transactionExpense
       ?.map((expense: IItemListTransactionProp) => {
+
         return {
           _id: expense._id,
           expenseName: expense.nameAccount,
           expenseValue: expense.revenueValue,
           expenseCategory: expense.nameCategory,
-          expenseEstablishment: expense.recipeName
+          expenseEstablishment: expense.recipeName,
+          expenseBankingName: expense.nameAccountBanking
         }
       })
       ?.find((expense: IItemListTransactionProp) => expense._id === this.expenseId)
@@ -122,7 +146,7 @@ export default {
     handleOpenModalCreateExpense(): void {
       this.createExpenseModalOpened = true
     },
-    handleCloseModalCreateExpense():void {
+    handleCloseModalCreateExpense(): void {
       this.createExpenseModalOpened = false
     },
     handleOpenEditModalExpense(expenseId: string): void {
@@ -190,7 +214,11 @@ export default {
 
   mounted() {
     this.$nextTick(async () => {
-      await Promise.all([this.handleGetExpense(), this.handleGetCategory()])
+      await Promise.all([
+        this.handleGetExpense(),
+        this.handleGetCategory(),
+        this.storeAccount.getAllAccount()
+      ])
     })
   },
 

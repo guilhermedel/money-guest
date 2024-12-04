@@ -107,6 +107,7 @@ export default {
           _id: revenue._id || '',
           revenueName: revenue.nameAccount || '',
           revenueValue: revenue.revenueValue || '',
+          revenueBankingName: revenue.accountBankingName || ''
         }
       })
       ?.find((revenue: IEditRevenue) => revenue._id === this.revenueId)

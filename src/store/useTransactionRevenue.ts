@@ -25,7 +25,8 @@ export const useStoreRevenue = defineStore('revenue', {
       return state.revenue?.map((revenue: any) => {
         return {
           nameAccount: revenue.expenseName,
-          nameCategory: 'carteira',
+          accountBankingName: revenue.accountId.accountBankingName,
+          nameCategory: revenue.accountId.accountBankingName,
           colorCategory: 'blue',
           dateTime: formatDateToCustomFormat(revenue.date),
           recipeName: 'carteira',

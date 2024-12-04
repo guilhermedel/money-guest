@@ -51,6 +51,17 @@
         :value="modalValue.expenseCategory"
         v-model="editExpense.expenseCategory"
       />
+      <TheSelect
+        ref="selectAccount"
+        is-label
+        is-validate
+        select-name="Conta"
+        select-id="account"
+        :is-input-disabled="loadingRequest"
+        :select-options="accounties"
+        :value="modalValue.expenseBankingName"
+        v-model="editExpense.expenseAccount"
+      />
     </form>
   </TheModal>
 </template>
@@ -81,6 +92,10 @@ export default {
       type: Array as () => ISelectOptionsProp[],
       default: () => ([] as ISelectOptionsProp[])
     },
+    accounties: {
+      type: Array as () => ISelectOptionsProp[],
+      default: () => ([] as ISelectOptionsProp[])
+    },
     modalValue: {
       type: Object as () => IEditExpense,
       default: () => ({} as IEditExpense)
@@ -93,7 +108,8 @@ export default {
         expenseName: "",
         expenseValue: "",
         expenseCategory: "",
-        expenseEstablishment: ""
+        expenseEstablishment: "",
+        expenseAccount: ""
       } as IModalCreateOrEditExpenseData
     }
   },

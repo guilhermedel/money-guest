@@ -22,12 +22,20 @@ export const useStoreExpense = defineStore('expense', {
     },
     transactionExpense(state: any) {
       const expense = state.expense?.map((expense: any) => {
-        const { expenseValue, expenseName, expenseEstablishment, date, categoryId } = expense
+        const {
+          expenseValue,
+          expenseName,
+          expenseEstablishment,
+          date,
+          categoryId,
+          accountId
+        } = expense
 
         return {
           _id: expense._id,
           nameAccount: expenseName,
           nameCategory: categoryId?.categoryName,
+          nameAccountBanking: accountId?.accountBankingName,
           colorCategory: categoryId?.categoryColor,
           dateTime: formatDateToCustomFormat(date),
           recipeName: expenseEstablishment,

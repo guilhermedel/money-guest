@@ -86,6 +86,7 @@ export default {
 
     handleClickExit() {
       window.localStorage.removeItem('token')
+      window.localStorage.removeItem('userId')
 
       this.$router.push('/login')
     }

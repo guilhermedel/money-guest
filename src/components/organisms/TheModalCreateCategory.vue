@@ -18,6 +18,18 @@
         :is-input-disabled="loadingRequest"
         v-model="dataCreateCategory.categoryName"
       />
+      <TheInputField
+        ref="inputValue"
+        is-label
+        is-money
+        input-type="text"
+        input-id="revenue"
+        input-name="Limite de Gastos"
+        input-placeholder="Digite o limite de gastos da categoria..."
+        input-validate="number"
+        :is-input-disabled="loadingRequest"
+        v-model="dataCreateCategory.spendingLimit"
+      />
       <TheSelect
         ref="selectColor"
         select-name="Selecione a cor da categoria"
@@ -55,7 +67,8 @@ export default {
     return {
       dataCreateCategory: {
         categoryName: "",
-        categoryColor: ""
+        categoryColor: "",
+        spendingLimit: ""
       } as IModalCreateOrEditCategoryData,
       selectOptions: [
         {

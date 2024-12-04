@@ -3,7 +3,8 @@
     <div class="home-header">
       <TheTitlePage title-message="Informações inicias" />
     </div>
-    <main class="main">
+    <TheLoading v-if="loadingHome" />
+    <main v-else class="main">
       <TheListMoneyCard :cards="moneyCards" />
       <div class="big-cards">
         <TheBigCard
@@ -36,11 +37,6 @@
         >
           <TheListCategory :category-list="storeCategory.categoryAll" />
         </TheBigCard>
-        <TheBigCard
-          class="card"
-          title-card="Gráfico de Gasto por Categoria"
-          paragraph-card="Veja a comparação de gasto por categorias."
-        />
       </div>
     </main>
   </section>
@@ -48,9 +44,6 @@
 
 <script lang="ts">
 import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
-import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
-import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
-import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 import { auth } from '~/utils/authToken'
 import { addFeedback } from "~/utils/addFeedback"
 import { currencyBRL } from "~/utils/numberTocurrency"
@@ -62,6 +55,12 @@ import { useStoreExpense } from "~/store/useTransactionExpense"
 
 export default {
   name: "AppIndex",
+
+  data() {
+    return {
+      loadingHome: false as boolean
+    }
+  },
 
   setup() {
     const storeCard = useStoreCard()
@@ -87,12 +86,6 @@ export default {
           moneyValue: currencyBRL(this.storeRevenue.totalRevenue),
           moneyColor: "green",
           icon: "IconArrowUp"
-        },
-        {
-          title: "Limite",
-          moneyValue: "R$ 2000",
-          moneyColor: "blue",
-          icon: "IconAlert"
         },
         {
           title: "Saída",
@@ -136,6 +129,8 @@ export default {
 
   mounted() {
     this.$nextTick(async () => {
+      this.loadingHome = true
+
       Promise.all([
         this.storeCard.getAllCard(),
         this.storeAccount.getAllAccount(),
@@ -143,6 +138,8 @@ export default {
         this.storeExpense.getTransactionExpense(),
         this.storeRevenue.getTransactionRevenue()
       ])
+      
+      this.loadingHome = false
     })
   }
 }
@@ -168,6 +165,10 @@ export default {
       .card {
         flex-grow: 1;
         flex-basis: 0;
+
+        &:last-child {
+          grid-column: 1 / -1;
+        }
       }
     }
   }

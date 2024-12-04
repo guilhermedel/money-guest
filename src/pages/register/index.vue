@@ -20,17 +20,6 @@
       />
       <TheInputField
         class="form-input"
-        ref="inputAge"
-        input-type="text"
-        input-id="age"
-        input-validate="age"
-        input-name="Idade"
-        input-placeholder="Digite sua idade..."
-        :is-input-disabled="loadingRequest"
-        v-model="user.age"
-      />
-      <TheInputField
-        class="form-input"
         ref="inputEmail"
         input-type="email"
         input-id="email"
@@ -54,10 +43,13 @@
           v-model="user.dateBirthday"
         />
         <TheSelect
+          ref="selectGender"
+          is-validate
           select-name="gender"
           select-id="gender"
-          v-model="user.gender"
+          :is-input-disabled="loadingRequest"
           :select-options="selectOptions"
+          v-model="user.gender"
         />
       </div>
       <div class="form-two-field">
@@ -88,6 +80,13 @@
         button-message="Criar conta"
         @button:click="handleClickRegister"
       />
+      <TheButtonForm
+        class="form-button"
+        buttonCancel
+        button-message="Voltar"
+        :is-disabled="loadingRequest"
+        @button:click="handleClickGoBack"
+      />
     </form>
   </div>
 </template>
@@ -95,7 +94,6 @@
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import { useStoreProfile } from "~/store/useProfile"
-import TheInputField from "~/components/molecules/TheInputField.vue";
 import { addFeedback } from "~/utils/addFeedback";
 
 export default {
@@ -106,10 +104,9 @@ export default {
       loadingRequest: false as boolean,
       user: {
         name: "",
-        age: "",
         email: "",
         dateBirthday: "",
-        gender: "",
+        gender: "M",
         password: "",
         confirmPassword: ""
       },
@@ -143,46 +140,25 @@ export default {
   },
 
   methods: {
-   async handleClickRegister(): Promise<void> {
-    this.loadingRequest = true
-      const createUser = {
-        ...this.user,
-        age: Number(this.user.age)
-      }
-
+    async handleClickRegister(): Promise<void> {
+      this.loadingRequest = true
+      
       if(this.isValidateFormRequest()) {
-        await this.storeProfile.registerUser(createUser)
+        await this.storeProfile.registerUser(this.user)
+        this.$router.push('/home')
       }
-
+      
       this.loadingRequest = false
-
-      this.$router.push('/home')
+      
     },
     isValidateFormRequest(): boolean {
-      const inputName = this.$refs.inputName as typeof TheInputField
-      const inputAge = this.$refs.inputAge as typeof TheInputField
-      const inputEmail = this.$refs.inputEmail as typeof TheInputField
-      const inputDateBirthday = this.$refs.inputDateBirthday as typeof TheInputField
-      const inputPassword = this.$refs.inputPassword as typeof TheInputField
-      const inputConfirmPassword = this.$refs.inputConfirmPassword as typeof TheInputField
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
       
-      const name = inputName.validate()
-      const age = inputAge.validate()
-      const email = inputEmail.validate()
-      const dateBirthday = inputDateBirthday.validate()
-      const password = inputPassword.validate()
-      const confirmPassword = inputConfirmPassword.validate()
-      
-      const isValidRequest = (
-        name
-        && age
-        && email
-        && dateBirthday
-        && password
-        && confirmPassword
-      )
-
-      return isValidRequest
+      return isValid
+    },
+    handleClickGoBack() {
+      this.$router.push('/login')
     }
   },
 

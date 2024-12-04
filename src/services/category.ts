@@ -29,8 +29,6 @@ const postCategory = async (
   try {
     const response = await api.post<IModalCreateOrEditCategoryData, postCategoryResponse>('categorias', category)
 
-    console.log(response)
-
     return { error: null, data: null }
   } catch(err) {
     return { error: err as Error, data: null }

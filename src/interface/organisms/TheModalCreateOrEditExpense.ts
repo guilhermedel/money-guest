@@ -4,4 +4,5 @@ export interface IModalCreateOrEditExpenseData {
   expenseValue: string | number;
   expenseCategory: string;
   expenseEstablishment: string;
+  expenseAccount: string;
 }

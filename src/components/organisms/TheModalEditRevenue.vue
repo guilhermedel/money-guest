@@ -40,6 +40,7 @@
         select-id="account"
         :is-input-disabled="loadingRequest"
         :select-options="accounties"
+        :value="modalValue.revenueBankingName"
         v-model="editRevenue.expenseAccount"
       />
     </form>

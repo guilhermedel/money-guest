@@ -47,6 +47,16 @@
         :select-options="categories"
         v-model="createExpense.expenseCategory"
       />
+      <TheSelect
+        ref="selectAccount"
+        is-label
+        is-validate
+        select-name="Conta"
+        select-id="account"
+        :is-input-disabled="loadingRequest"
+        :select-options="accounties"
+        v-model="createExpense.expenseAccount"
+      />
     </form>
   </TheModal>
 </template>
@@ -71,6 +81,10 @@ export default {
     categories: {
       type: Array as () => ISelectOptionsProp[],
       default: () => ([] as ISelectOptionsProp[])
+    },
+    accounties: {
+      type: Array as () => ISelectOptionsProp[],
+      default: () => ([] as ISelectOptionsProp[])
     }
   },
 
@@ -81,6 +95,7 @@ export default {
         expenseValue: "",
         expenseCategory: "",
         expenseEstablishment: "",
+        expenseAccount: ""
       } as IModalCreateOrEditExpenseData,
       selectOptions: [
         {

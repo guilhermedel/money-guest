@@ -5,4 +5,5 @@ export interface IItemListCategoryProp {
   revenueValue: number;
   receitas: [];
   categoryBalance: number;
+  spendingLimit: string;
 }

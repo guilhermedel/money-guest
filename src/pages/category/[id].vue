@@ -92,7 +92,7 @@ export default {
       return [
         {
           title: "Limite de Gasto",
-          moneyValue: "R$ 300",
+          moneyValue: this.storeCategory.categoryData.spendingLimit,
           moneyColor: "blue",
           icon: "IconArrowUp"
         },
@@ -104,7 +104,7 @@ export default {
         },
         {
           title: "Saldo",
-          moneyValue: "R$ 200",
+          moneyValue: this.storeCategory.categoryData.categoryBalance,
           moneyColor: "yellow",
           icon: "IconBarChart"
         }

@@ -1,7 +1,7 @@
 export interface IModalCreateOrEditCardData {
   cardBankingName: string;
   cardName: string;
-  cardLimited: string;
+  cardLimited: string | number;
   cardNumber: string;
   cardInvoice: string;
   cardDateNumber: string;
@@ -12,7 +12,7 @@ export interface IModalCreateOrEditCardData {
 export interface ICreateOrEditCardData {
   cardBankingName: string;
   cardName: string;
-  cardLimited: string;
+  cardLimited: string | number;
   cardNumber: string;
   cardInvoice: number;
   cardDateNumber: string;

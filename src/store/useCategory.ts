@@ -19,7 +19,13 @@ export const useStoreCategory = defineStore('category', {
     },
 
     categoryData(state: any) {
-      const { categoryColor, categoryName, receitas, revenueValue } = state.category
+      const {
+        categoryColor,
+        categoryName,
+        receitas,
+        revenueValue,
+        spendingLimit
+      } = state.category
 
       const categoryTratament = receitas?.map((category: any) => {
         return {
@@ -36,7 +42,10 @@ export const useStoreCategory = defineStore('category', {
       return {
         categoryTratament,
         categoryName,
-        revenueValue: revenueValue ? currencyBRL(revenueValue / 100) : currencyBRL(0)
+        revenueValue: revenueValue ? currencyBRL(revenueValue / 100) : currencyBRL(0),
+        spendingLimit: spendingLimit ? currencyBRL(spendingLimit / 100) : currencyBRL(0),
+        categoryBalance: revenueValue && spendingLimit 
+        ? currencyBRL((spendingLimit / 100) - (revenueValue / 100)) : currencyBRL(0)
       }
     },
 
@@ -92,7 +101,11 @@ export const useStoreCategory = defineStore('category', {
     async postCategory(category: IModalCreateOrEditCategoryData): Promise<void> {
       this.categoryLoading = true
 
-      const { error } = await serviceCategory.postCategory(category)
+      const { error } = await serviceCategory.postCategory({
+        ...category,
+        spendingLimit: +String(category.spendingLimit)
+        .replace('R$', '').replaceAll('.','').replace(',','')
+      })
 
       if(!error) {
         await this.getAllCategory()
@@ -115,7 +128,11 @@ export const useStoreCategory = defineStore('category', {
     async putCategory(category: IModalCreateOrEditCategoryData, categoryId: number): Promise<void> {
       this.categoryLoading = true
 
-      const { error } = await serviceCategory.putCategory(category, categoryId)
+      const { error } = await serviceCategory.putCategory({
+        ...category,
+        spendingLimit: +String(category.spendingLimit)
+        .replace('R$', '').replaceAll('.','').replace(',','')
+      }, categoryId)
 
       if(!error) {
         await this.getAllCategory()

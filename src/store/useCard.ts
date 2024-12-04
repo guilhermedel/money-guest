@@ -58,9 +58,10 @@ export const useStoreCard = defineStore('card', {
       this.cardLoading = true
       const requestCard = {
         ...card,
-        cardInvoice: Number(card.cardInvoice)
+        cardLimited: +String(card.cardLimited).replace('R$', '').replaceAll('.','').replace(',',''),
+        cardInvoice: +String(card.cardInvoice).replace('R$', '').replaceAll('.','').replace(',','')
       }
-
+      
       const { error } = await serviceCard.postCard(requestCard)
 
       if(!error) {
@@ -87,8 +88,8 @@ export const useStoreCard = defineStore('card', {
 
       const requestCard = {
         ...card,
-        cardLimited: String(card.cardLimited),
-        cardInvoice: +card.cardInvoice
+        cardLimited: +String(card.cardLimited).replace('R$', '').replaceAll('.','').replace(',',''),
+        cardInvoice: +String(card.cardInvoice).replace('R$', '').replaceAll('.','').replace(',','')
       }
 
       const { error } = await serviceCard.putCard(requestCard, cardId)

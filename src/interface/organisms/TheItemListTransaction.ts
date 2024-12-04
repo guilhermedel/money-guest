@@ -6,9 +6,12 @@ export interface IItemListTransactionProp {
   dateTime: string;
   recipeName: string;
   revenueValue: string;
+  accountBankingName: string;
+  nameAccountBanking: string;
 }
 
 export interface IEditExpense {
+  expenseBankingName: string;
   expenseCategory: string;
   expenseEstablishment: string;
   expenseName: string;
@@ -16,6 +19,7 @@ export interface IEditExpense {
   _id: string;
 }
 export interface IEditRevenue {
+  revenueBankingName: string;
   revenueName: string;
   revenueValue: string;
   _id: string;

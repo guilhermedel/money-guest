@@ -7,21 +7,22 @@ const urlInstance = axios.create({
 })
 
 urlInstance.interceptors.request.use(
-  function(config) {
+  function (config) {
     const token = window.localStorage.token
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
-    if (config.method === 'post' && !config.url?.includes('/login')) {
+    if (!config.url?.includes('/login') && !config.url?.includes('/registro')) {
       if (config.data && typeof config.data === 'object') {
         config.data.userId = localStorage.getItem('userId')
+        config.headers.userId = localStorage.getItem('userId')
       }
     }
 
     return config
   },
-  function(error) {
+  function (error) {
     return Promise.reject(error)
   }
 )
@@ -31,7 +32,7 @@ export const api = {
     try {
       const response = await urlInstance.get<typeResponse>(endpoint)
       return response.data
-    } catch(err) {
+    } catch (err) {
       if (axios.isAxiosError(err)) {
         const errorMessage = err.response?.data?.message || 'Erro desconhecido'
         const status = err.response?.status
@@ -58,13 +59,13 @@ export const api = {
       throw new Error('Erro desconhecido ao realizar a requisição');
     }
   },
-  
+
 
   async put<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
     try {
       const response = await urlInstance.put<typeResponse>(endpoint, body)
       return response.data
-    } catch(err) {
+    } catch (err) {
       if (axios.isAxiosError(err)) {
         const errorMessage = err.response?.data?.message || 'Erro desconhecido'
         const status = err.response?.status
@@ -79,7 +80,7 @@ export const api = {
   async delete(endpoint: string): Promise<void> {
     try {
       await urlInstance.delete(endpoint)
-    } catch(err) {
+    } catch (err) {
       if (axios.isAxiosError(err)) {
         const errorMessage = err.response?.data?.message || 'Erro desconhecido'
         const status = err.response?.status
